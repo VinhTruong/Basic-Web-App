@@ -36,6 +36,11 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${jdbc.postgres.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -93,6 +98,11 @@
                         <groupId>com.h2database</groupId>
                         <artifactId>h2</artifactId>
                         <version>${jdbc.h2.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${jdbc.postgres.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
