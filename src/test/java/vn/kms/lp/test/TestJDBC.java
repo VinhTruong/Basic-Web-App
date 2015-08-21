@@ -21,19 +21,19 @@ public class TestJDBC {
     public void testConnection() {
         try {
             // Check necessary driver
-            Class.forName("org.h2.Driver");
+            Class.forName("org.postgresql.Driver");
 
-            String jdbc = "jdbc:h2:mem:test;DB_CLOSE_ON_EXIT=false";
+            String jdbc = "jdbc:postgresql://localhost:5432/WebAppDatabase";
             Properties userInfo = new Properties();
-            userInfo.put("username", "sa");
-            userInfo.put("password", "");
+            userInfo.put("user", "postgres");
+            userInfo.put("password", "124356");
 
             Connection connection = null;
             PreparedStatement statement = null;
             ResultSet result = null;
             try {
                 connection = DriverManager.getConnection(jdbc, userInfo);
-                statement = connection.prepareStatement("SELECT 1");
+                statement = connection.prepareStatement("SELECT * FROM PRODUCTS");
                 result = statement.executeQuery();
                 while (result.next()) {
                     LOG.info(result.getString(1));

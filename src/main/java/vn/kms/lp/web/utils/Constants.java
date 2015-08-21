@@ -8,8 +8,10 @@ package vn.kms.lp.web.utils;
  *
  */
 public class Constants {
-    public static final String JDBC = "jdbc:h2:~/mstoredb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE";
-
+    public static final String JDBC = "jdbc:postgresql://localhost:5432/WebAppDatabase";
+    public static final String DB_USERNAME = "postgres"; 
+    public static final String POSTGRES_DRIVER = "org.postgresql.Driver";
+    public static final String DB_PWD = "124356"; 
     public static final String HTML_START = "<html><body>";
     public static final String HTML_END = "</body></html>";
 }
