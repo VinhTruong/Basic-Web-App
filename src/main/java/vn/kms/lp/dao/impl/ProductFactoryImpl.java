@@ -2,14 +2,20 @@ package vn.kms.lp.dao.impl;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+
+
+
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +26,6 @@ import vn.kms.lp.web.utils.Constants;
 
 public class ProductFactoryImpl implements ProductFactory {
 
-    private Properties userInfo;
-    private Connection connection;
-    private Statement stmt;
-    private ResultSet result;
     private ProductModel product;
     private Map<Integer, ProductModel> products;
     
@@ -35,38 +37,14 @@ public class ProductFactoryImpl implements ProductFactory {
         this.products = products;
     }
 
-    
-
     private static final Logger LOG = LoggerFactory.getLogger(ProductFactoryImpl.class);
     private static ProductFactory instance;
 
-    public ProductFactoryImpl() throws SQLException {       
-            
+
+    public ProductFactoryImpl() throws SQLException {                  
             products = new HashMap<Integer, ProductModel>();
-            connection = null;
-            stmt = null;
-            result = null;
-            product = null;
-            
-            InitConnection();
+            product = null;            
             fetchData();
-    }
-    
-    public void InitConnection() {
-        userInfo.put("user", "postgres");
-        userInfo.put("password", "124356");
-        
-        try {
-            // Check necessary driver
-            Class.forName(Constants.POSTGRES_DRIVER);
-            
-            connection = DriverManager.getConnection(Constants.JDBC, userInfo);
-        } catch (ClassNotFoundException e) {
-            LOG.error("Missing necessary Driver: " + e.getMessage());
-        } catch (SQLException e) {
-            LOG.error(e.getMessage(), e);
-        }
-   
     }
 
     @Override
@@ -79,7 +57,6 @@ public class ProductFactoryImpl implements ProductFactory {
 
     @Override
     public List<ProductModel> findByCategory(String category) {
-        // TODO Auto-generated method stub
         return products.values()
                 .stream()
                 .filter(productModel -> category.equals(productModel.getCategory()))
@@ -87,36 +64,66 @@ public class ProductFactoryImpl implements ProductFactory {
     }
 
     @Override
-    public List<ProductModel> findByPrice(int From, int To) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<ProductModel> findByPrice(int fromPrice, int toPrice) {
+        int price = 0;
+        List<ProductModel> searchResult = new ArrayList<ProductModel>();
+        for (int i=1 ; i<products.size(); i++) {
+              price = products.get(i).getPrice();
+              if (price <= toPrice && price >= fromPrice) {
+                    searchResult.add(products.get(i));
+              }
+        }
+        return searchResult;
     }
 
     public void fetchData() {
         products.clear();       // exclude problem when add or delete into db
         try {
-            stmt = connection.createStatement();
-            result = stmt.executeQuery("SELECT product_name FROM products;");
-            do {
-                product = new ProductModel(result.getInt("product_id"),
-                        result.getString("product_name"),
-                        result.getString("product_category"),
-                        result.getString("product_desc"),
-                        result.getInt("product_price"));
-                products.put(new Integer(products.size()+1), product);              
-            } while (result.next());
-            
-        } catch (SQLException e) {
-            // TODO: handle exception
-        }
-        
+            // Check necessary driver
+            Class.forName("org.postgresql.Driver");
+
+            String jdbc = Constants.JDBC;
+            Properties userInfo = new Properties();
+            userInfo.put("user", "postgres");
+            userInfo.put("password", "124356");
+
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet result = null;
+            try {
+                connection = DriverManager.getConnection(jdbc, userInfo);
+                statement = connection.prepareStatement("SELECT * FROM PRODUCTS");
+                result = statement.executeQuery();
+                while (result.next()) {
+                    product = new ProductModel(result.getInt(1),
+                                                  result.getString(2),
+                    		                   	  result.getString(3),
+                    		                   	  result.getString(4),
+                    		                   	  result.getInt(5));
+                    products.put(new Integer(products.size()+1), product);
+                    
+                }
+            } catch (SQLException e) {
+                LOG.error(e.getMessage(), e);
+            } finally {
+                close(result);
+                close(statement);
+                close(connection);
+            }
+
+        } catch (ClassNotFoundException e) {
+            LOG.error("Missing necessary Driver: " + e.getMessage());
+        }      
     }
     
-    public synchronized final ProductFactory getInstance() throws SQLException {
-        if (instance == null) {
-            instance = new ProductFactoryImpl();
+    private void close(AutoCloseable closeable) {
+        if (closeable == null) {
+            return;
         }
-        return instance;
-    }
-
+        try {
+            closeable.close();
+        } catch (Exception ignore) {
+            //Ignore all
+        }
+    }   
 }

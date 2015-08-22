@@ -1,6 +1,8 @@
 package vn.kms.lp.model;
 
-public class ProductModel {
+import java.util.Comparator;
+
+public class ProductModel implements Comparable<ProductModel>, Comparator<ProductModel> {
 
     private int id;
     private String name;
@@ -16,6 +18,10 @@ public class ProductModel {
         this.price = price;
     }
     
+    public ProductModel() {
+        // TODO Auto-generated constructor stub
+    }
+
     public int getId() {
         return id;
     }
@@ -46,6 +52,22 @@ public class ProductModel {
     }
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        ProductModel model = (ProductModel) obj;
+        return this.name.equals(model.getName());
+    }
+    
+    @Override
+    public int compareTo(ProductModel o) {       
+        return this.name.compareToIgnoreCase(o.getName());
+    }
+
+    @Override
+    public int compare(ProductModel o1, ProductModel o2) {
+        return o1.getPrice()-o2.getPrice();
     }
     
 }

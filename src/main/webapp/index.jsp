@@ -11,5 +11,6 @@
 <h2>Hello World</h2>
 <br>
 <h3>Today is: <%= new Date() %></h3>
+<a href="search.jsp">Go to Search Page</a>
 </body>
 </html>
