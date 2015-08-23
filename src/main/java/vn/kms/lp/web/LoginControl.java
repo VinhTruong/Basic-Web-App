@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import vn.kms.lp.dao.UserFactory;
 import vn.kms.lp.dao.impl.UserFactoryImpl;
@@ -46,6 +47,8 @@ public class LoginControl extends HttpServlet {
 			request.setAttribute("loginFlag", loginFlag);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		} else {
+		    HttpSession session = request.getSession();
+		    session.setAttribute("userName", userName);
 			request.getRequestDispatcher("search.jsp").forward(request, response);
 		}
 	}

@@ -21,7 +21,7 @@ import vn.kms.lp.model.ProductModel;
 /**
  * Servlet implementation class DataControl
  */
-@WebServlet("/DataControl")
+@WebServlet("/DataFetching")
 public class DataFetching extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ProductFactoryImpl productFactory;
@@ -35,6 +35,7 @@ public class DataFetching extends HttpServlet {
         super();
         productFactory = new ProductFactoryImpl();
         products = new ArrayList<ProductModel>();
+        logger.info("Initialized DataFetching Servlet");
     }
 
 	/**

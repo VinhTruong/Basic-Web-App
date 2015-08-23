@@ -11,7 +11,7 @@
 </head>
 <body>
     <form action="UpdateDatabase" method="POST">
-        Id: <input type="text" name="Id" value="aaaa"> <br/>
+        Id: <input type="text" name="Id"> <br/>
         Name: <input type="text" name="Name"> <br /> 
         Category: <input type="text" name="Category" /> <br />
         Description: <input type="text" name="Desc"> <br />
