@@ -27,7 +27,7 @@ public class UserFactoryImpl implements UserFactory {
 		// TODO Auto-generated constructor stub
 		users = new ArrayList<UserModel>();
 		user = null;
-		fetchData();
+		//fetchData();
 	}
 
 	@Override

@@ -26,7 +26,6 @@
         <c:when test="${sessionScope.userName!=null}">
             <table border="1" style="width: 100%">
                 <tr>
-                    <td>Id</td>
                     <td>Name</td>
                     <td>Category</td>
                     <td>Desc</td>
@@ -34,9 +33,12 @@
                 </tr>
                 <c:if test="${products != null}">
                     <c:forEach items="${products}" var="item">
-                        <tr>
-                            <td><c:out value="${item.getId()}"></c:out></td>
-                            <td><a href="modifyProduct.jsp"> <c:out
+                        <tr>                            
+                            <td><a href="modifyProduct.jsp?Id=${item.getId()}
+                                        &Name=${item.getName()}
+                                        &Category=${item.getCategory()}
+                                        &Desc=${item.getDesc()}
+                                        &Price=${item.getPrice()}"> <c:out
                                         value="${item.getName()}"></c:out></a></td>
                             <td><c:out
                                     value="${item.getCategory()}"></c:out></td>
@@ -54,7 +56,6 @@
         <c:otherwise>
             <table border="1" style="width: 100%">
                 <tr>
-                    <td>Id</td>
                     <td>Name</td>
                     <td>Category</td>
                     <td>Desc</td>
@@ -63,7 +64,6 @@
                 <c:if test="${products != null}">
                     <c:forEach items="${products}" var="item">
                         <tr>
-                            <td><c:out value="${item.getId()}"></c:out></td>
                             <td><c:out value="${item.getName()}"></c:out></td>
                             <td><c:out
                                     value="${item.getCategory()}"></c:out></td>
@@ -75,5 +75,12 @@
             </table>
         </c:otherwise>
     </c:choose>
+    <form action="login.jsp" >
+          <input align="right" type="submit" value="Back to Login">
+    </form>
+    <form action="LogOutControl" >
+        <input type="hidden" name="currentPage" value="search.jsp" />
+          <input align="right" type="submit" value="Log Out">
+    </form>
 </body>
 </html>

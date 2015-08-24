@@ -10,13 +10,31 @@
 <title>Update Product</title>
 </head>
 <body>
-    <form action="UpdateDatabase" method="POST">
-        Id: <input type="text" name="Id"> <br/>
-        Name: <input type="text" name="Name"> <br /> 
-        Category: <input type="text" name="Category" /> <br />
-        Description: <input type="text" name="Desc"> <br />
-        Price: <input type="text" name="Price"/> <br />  
-               <input type="submit" value="Save"/> 
-    </form>   
+    <c:choose>    
+    <c:when test="${sessionScope.userName != null}">
+        <%
+                String Id = request.getParameter("Id");
+                String name = request.getParameter("Name");
+                String category = request.getParameter("Category");
+                String desc = request.getParameter("Desc");
+                String price = request.getParameter("Price");
+        %>
+        <c:out value="${Id}"></c:out>
+        <form action="UpdateDatabase" method="GET">
+            Name: <input type="text" name="Name" value=<%=name%>>
+            <br /> 
+            Category: <input type="text" name="Category"
+                value=<%=category%> /> <br /> 
+            Description: <input type="text" name="Desc" value=<%=desc%>> 
+            <br />
+            Price: <input type="text" name="Price" value=<%=price%>>
+            <br /> <input type="submit" value="Save" />                
+                    <input type="hidden" name="Id" value=<%=Id%>>                   
+        </form>
+    </c:when>
+    <c:otherwise>
+           <h1 style="color:red">UnAuthorized</h1>
+    </c:otherwise>
+    </c:choose> 
 </body>
 </html>

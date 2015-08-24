@@ -42,6 +42,7 @@ public class LoginControl extends HttpServlet {
 		String userName = request.getParameter("UserName");
 		String passWord = request.getParameter("Password");
 		UserFactory userFactory = new UserFactoryImpl();
+		userFactory.fetchData();
 		boolean loginFlag = userFactory.CheckUser(userName, passWord);
 		if (loginFlag==false) {
 			request.setAttribute("loginFlag", loginFlag);

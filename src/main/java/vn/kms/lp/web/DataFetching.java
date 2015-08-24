@@ -42,11 +42,14 @@ public class DataFetching extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String filterName = request.getParameter("Name");
+		
+	    String filterName = request.getParameter("Name");
 		String filterCategory = request.getParameter("Category");
 		String fromPrice = request.getParameter("From");
 		String toPrice = request.getParameter("To");
 		String Order = request.getParameter("Order");
+		
+		productFactory.fetchData();
 		
 	    if (!filterName.equals("")
 	            && fromPrice.equals("")
