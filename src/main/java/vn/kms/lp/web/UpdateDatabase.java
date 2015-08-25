@@ -39,23 +39,30 @@ public class UpdateDatabase extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	    String updateId = request.getParameter("Id");
-	    String updateName = request.getParameter("Name");
-		String updateCategory = request.getParameter("Category"); 
-		String updateDesc = request.getParameter("Desc");
-		String updatePrice = request.getParameter("Price");
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		if(!updateId.equals("null")) {
-		    productFactory.updateProduct(updateId, updateName, updateCategory,
-		                                    updateDesc, updatePrice);
-		} else {
-		    productFactory.addProduct(updateName, updateCategory, updateDesc, updatePrice);
-		}
-		
-		request.getRequestDispatcher("search.jsp").forward(request, response);;
-		
-	}
+        String id = request.getParameter("Id");
+        String name = request.getParameter("Name");
+        String category = request.getParameter("Category");
+        String desc = request.getParameter("Desc");
+        String price = request.getParameter("Price");
+        String action = request.getParameter("Action");
+
+        switch (action) {
+            case "Save":
+                if (id != null) {
+                    productFactory.updateProduct(id, name, category, desc, price);
+                } else {
+                    productFactory.addProduct(name, category, desc, price);
+                }
+                break;
+            case "Delete":
+                productFactory.deleteProduct(id);
+                break;
+        }
+
+        request.getRequestDispatcher("search.jsp").forward(request, response);
+
+    }
 
 }

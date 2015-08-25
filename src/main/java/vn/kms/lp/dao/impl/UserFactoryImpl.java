@@ -18,20 +18,17 @@ import vn.kms.lp.model.UserModel;
 
 public class UserFactoryImpl implements UserFactory {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(UserFactoryImpl.class);
-	private List<UserModel> users;
-	private UserModel user;
+    private static final Logger LOG = LoggerFactory.getLogger(UserFactoryImpl.class);
+    private List<UserModel> users;
+    private UserModel user;
 
 	public UserFactoryImpl() {
-		// TODO Auto-generated constructor stub
 		users = new ArrayList<UserModel>();
 		user = null;
-		//fetchData();
 	}
 
 	@Override
-	public boolean CheckUser(String userName, String passWord) {
+	public boolean checkUser(String userName, String passWord) {
 		UserModel user = new UserModel(userName, passWord);
 		if (users.contains(user)) {
 			return true;

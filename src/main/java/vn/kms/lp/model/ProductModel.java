@@ -19,7 +19,7 @@ public class ProductModel implements Comparable<ProductModel>, Comparator<Produc
     }
     
     public ProductModel() {
-        // TODO Auto-generated constructor stub
+        
     }
 
     public int getId() {

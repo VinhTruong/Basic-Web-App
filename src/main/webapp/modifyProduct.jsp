@@ -13,23 +13,29 @@
     <c:choose>    
     <c:when test="${sessionScope.userName != null}">
         <%
-                String Id = request.getParameter("Id");
+                String id = request.getParameter("Id");
                 String name = request.getParameter("Name");
                 String category = request.getParameter("Category");
                 String desc = request.getParameter("Desc");
                 String price = request.getParameter("Price");
+                System.out.print("Iddddd:"+id);
         %>
-        <c:out value="${Id}"></c:out>
         <form action="UpdateDatabase" method="GET">
-            Name: <input type="text" name="Name" value=<%=name%>>
+            Name: <input type="text" name="Name" value="<%=name%>">
             <br /> 
             Category: <input type="text" name="Category"
-                value=<%=category%> /> <br /> 
-            Description: <input type="text" name="Desc" value=<%=desc%>> 
+                value="<%=category%>" /> <br /> 
+            Description: <input type="text" name="Desc" value="<%=desc%>"> 
             <br />
-            Price: <input type="text" name="Price" value=<%=price%>>
-            <br /> <input type="submit" value="Save" />                
-                    <input type="hidden" name="Id" value=<%=Id%>>                   
+            Price: <input type="text" name="Price" value="<%=price%>">
+            <br /> <input type="submit" value="Save" />      
+                   <input type="hidden" name="Action" value="Save">             
+                   <input type="hidden" name="Id" value="<%=id%>">                   
+        </form>
+        <form action="UpdateDatabase">
+            <input type="hidden" name="Action" value="Delete">
+            <input type="hidden" name="Id" value="<%=id%>">
+            <input type="submit" value="Delete" />   
         </form>
     </c:when>
     <c:otherwise>

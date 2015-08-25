@@ -37,7 +37,6 @@ public class ProductFactoryImpl implements ProductFactory {
         userInfo.put("password", Constants.DB_PWD);
 
         initialConnection();
-
     }
 
     public void initialConnection() {
@@ -53,7 +52,6 @@ public class ProductFactoryImpl implements ProductFactory {
             LOG.error("Missing necessary Driver: " + e.getMessage());
         }
         LOG.info("Initialized");
-
     }
 
     @Override
@@ -113,17 +111,17 @@ public class ProductFactoryImpl implements ProductFactory {
         category = category.trim();
         desc = desc.trim();
         price = price.trim();
-        
+
         try {
             if (connection.isClosed()) {
                 LOG.info("Connect Again");
                 connection = DriverManager.getConnection(Constants.JDBC, userInfo);
             }
             statement = connection.prepareStatement("UPDATE PRODUCTS SET " + "PRODUCT_NAME = '" + name
-                    + "', PRODUCT_CATEGORY = '" + category + "', PRODUCT_DESC = '" + desc + "', PRODUCT_PRICE = " + price
-                    + " WHERE PRODUCT_ID = " + id);
+                    + "', PRODUCT_CATEGORY = '" + category + "', PRODUCT_DESC = '" + desc + "', PRODUCT_PRICE = "
+                    + price + " WHERE PRODUCT_ID = " + id);
             LOG.info("" + statement.toString());
-            statement.executeUpdate();     
+            statement.executeUpdate();
             LOG.info("Finish Update");
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -178,6 +176,26 @@ public class ProductFactoryImpl implements ProductFactory {
 
     public void setProducts(List<ProductModel> products) {
         this.products = products;
+    }
+
+    @Override
+    public void deleteProduct(String Id) {
+        // TODO Auto-generated method stub
+        try {
+            if (connection.isClosed()) {
+                LOG.info("Connect Again");
+                connection = DriverManager.getConnection(Constants.JDBC, userInfo);
+            }
+            statement = connection.prepareStatement("DELETE FROM PRODUCTS WHERE PRODUCT_ID = " + Id);
+            statement.executeUpdate();
+            LOG.info("Delete completed");
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            close(result);
+            close(statement);
+            close(connection);
+        }
     }
     
 }

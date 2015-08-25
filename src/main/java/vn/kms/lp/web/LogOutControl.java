@@ -31,7 +31,7 @@ public class LogOutControl extends HttpServlet {
 		// TODO Auto-generated method stub
 	    HttpSession session = request.getSession();	    
 	    String returnPage = (String) request.getParameter("currentPage");
-	    session.invalidate();
+	    session.removeAttribute("userName");
 	    request.getRequestDispatcher(returnPage).forward(request, response);	    
 	}
 

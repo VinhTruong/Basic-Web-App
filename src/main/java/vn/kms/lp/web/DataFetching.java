@@ -52,7 +52,7 @@ public class DataFetching extends HttpServlet {
 		productFactory.fetchData();
 		
 	    if (!filterName.equals("")
-	            && fromPrice.equals("")
+	            && fromPrice.equals("") 
 	    		&& filterCategory.equals("")) {
 	    	  products = productFactory.findByName(filterName);
 	    } else if (!filterCategory.equals("")
@@ -78,28 +78,26 @@ public class DataFetching extends HttpServlet {
                         && !toPrice.equals("")) {
 	        products = productFactory.findByCategory(filterCategory);
             removeWrongPrice(fromPrice, toPrice);
-	    }
-	    else if (!filterName.equals("") 
-	    				&& !filterCategory.equals("")
-	    				&& fromPrice.equals("")) {
-	    	  products = productFactory.findByName(filterName);
-	    	  removeWrongCategory(filterCategory);
-	    }
+	    } else if (!filterName.equals("") 
+   	    				&& !filterCategory.equals("")
+   	                    && fromPrice.equals("")) {
+  	    	  products = productFactory.findByName(filterName);
+   	    	  removeWrongCategory(filterCategory);
+   	    }
 	    
-	   logger.info("Prepare To sort");
-	   switch (Order) {
-	        case "name":
-	            Collections.sort(products);
-	            logger.info("Sorted");
-	            break;
-	        case "price":
-	            Collections.sort(products, new ProductModel());
-	            break;
-	    }
+        logger.info("Prepare To sort");
+        switch (Order) {
+            case "name":
+                Collections.sort(products);
+                logger.info("Sorted");
+                break;
+            case "price":
+                Collections.sort(products, new ProductModel());
+                break;
+        }
 	    	
 	   request.setAttribute("products", products);
-	   request.getRequestDispatcher("search.jsp").forward(request, response);
-	    
+	   request.getRequestDispatcher("search.jsp").forward(request, response);	    
 	}
 
 	protected void removeWrongCategory(String rightCategory) {

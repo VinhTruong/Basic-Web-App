@@ -12,4 +12,5 @@ public interface ProductFactory {
     void fetchData();
     void updateProduct(String id, String name, String category, String desc, String price);
     void addProduct(String name, String category, String desc, String price);
+    void deleteProduct(String Id);
 }

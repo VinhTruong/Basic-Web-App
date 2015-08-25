@@ -1,3 +1,4 @@
+<%@page import="vn.kms.lp.web.LoginListeners"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="vn.kms.lp.model.ProductModel"%>
 <%@page import="java.util.List"%>
@@ -33,13 +34,11 @@
                 </tr>
                 <c:if test="${products != null}">
                     <c:forEach items="${products}" var="item">
-                        <tr>                            
-                            <td><a href="modifyProduct.jsp?Id=${item.getId()}
-                                        &Name=${item.getName()}
-                                        &Category=${item.getCategory()}
-                                        &Desc=${item.getDesc()}
-                                        &Price=${item.getPrice()}"> <c:out
-                                        value="${item.getName()}"></c:out></a></td>
+                        <tr>
+                            <td><a
+                                href='modifyProduct.jsp?Id=${item.getId()}&Name=${item.getName()}&Category=${item.getCategory()}&Desc=${item.getDesc()}&Price=${item.getPrice()}'>
+                                    <c:out value="${item.getName()}"></c:out>
+                            </a></td>
                             <td><c:out
                                     value="${item.getCategory()}"></c:out></td>
                             <td><c:out value="${item.getDesc()}"></c:out></td>
@@ -49,7 +48,7 @@
                 </c:if>
             </table>
             <h2 align="right">Welcome"${sessionScope.userName}"</h2>
-            <form action="modifyProduct.jsp" method="POST">
+            <form action="AddProduct.jsp" method="POST">
                 <input type="submit" value="Add New">
             </form>
         </c:when>
@@ -75,12 +74,16 @@
             </table>
         </c:otherwise>
     </c:choose>
-    <form action="login.jsp" >
-          <input align="right" type="submit" value="Back to Login">
+    <form action="login.jsp">
+        <input align="right" type="submit" value="Back to Login">
     </form>
-    <form action="LogOutControl" >
+    <form action="LogOutControl">
+        <input type="hidden" name="currentPage" value="search.jsp" /> <input
+            align="right" type="submit" value="Log Out">
+    </form>
+    <form action="LoginListener">
         <input type="hidden" name="currentPage" value="search.jsp" />
-          <input align="right" type="submit" value="Log Out">
     </form>
+    <h2 align="Right" style="color:blue">Online:<c:out value="<%=LoginListeners.onlineCounting%>"></c:out></h2>
 </body>
 </html>

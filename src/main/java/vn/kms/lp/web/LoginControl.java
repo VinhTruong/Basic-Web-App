@@ -43,7 +43,7 @@ public class LoginControl extends HttpServlet {
 		String passWord = request.getParameter("Password");
 		UserFactory userFactory = new UserFactoryImpl();
 		userFactory.fetchData();
-		boolean loginFlag = userFactory.CheckUser(userName, passWord);
+		boolean loginFlag = userFactory.checkUser(userName, passWord);
 		if (loginFlag==false) {
 			request.setAttribute("loginFlag", loginFlag);
 			request.getRequestDispatcher("login.jsp").forward(request, response);
