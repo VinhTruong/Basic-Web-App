@@ -29,8 +29,8 @@ public class TestFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException {
         boolean ok = SECRET.equals(request.getParameter("secret"));
         if (ok) {
             chain.doFilter(request, response);

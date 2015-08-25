@@ -15,9 +15,9 @@ import javax.servlet.http.HttpSessionBindingEvent;
  */
 @WebServlet("/LoginListener")
 public class LoginListener extends HttpServlet implements HttpSessionAttributeListener {
-	private static final long serialVersionUID = 1L;
-	private static int onlineCounting;
-       
+    private static final long serialVersionUID = 1L;
+    private static int onlineCounting;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,31 +27,31 @@ public class LoginListener extends HttpServlet implements HttpSessionAttributeLi
         onlineCounting = 0;
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	    
-	    request.setAttribute("onlineCounting", onlineCounting);
-	    request.getRequestDispatcher(request.getAttribute("currenPage").toString())
-	                                            .forward(request, response);
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+        request.setAttribute("onlineCounting", onlineCounting);
+        request.getRequestDispatcher(request.getAttribute("currenPage").toString()).forward(request, response);
+    }
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
+        // TODO Auto-generated method stub
+    }
 
     @Override
     public void attributeAdded(HttpSessionBindingEvent event) {
         // TODO Auto-generated method stub
-        if (event.getSession()
-                   .getAttribute("userName")
-                   != null) {
-              onlineCounting++;
+        if (event.getSession().getAttribute("userName") != null) {
+            onlineCounting++;
         }
     }
 
@@ -59,14 +59,14 @@ public class LoginListener extends HttpServlet implements HttpSessionAttributeLi
     public void attributeRemoved(HttpSessionBindingEvent event) {
         // TODO Auto-generated method stub
         if (event.getSession().getAttribute("userName") == null) {
-              onlineCounting--; 
+            onlineCounting--;
         }
     }
 
     @Override
     public void attributeReplaced(HttpSessionBindingEvent event) {
         // TODO Auto-generated method stub
-        
+
     }
 
 }

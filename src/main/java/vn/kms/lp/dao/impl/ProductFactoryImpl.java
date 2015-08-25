@@ -79,22 +79,24 @@ public class ProductFactoryImpl implements ProductFactory {
         return searchResult;
     }
 
-    public void fetchData() {
+    public boolean fetchData() {
+        boolean success = false;
         LOG.info("Start Fetching data");
         products.clear(); // exclude problem when add or delete into db
         products = new ArrayList<ProductModel>();
         try {
-            if (connection.isClosed()) {
-                LOG.info("Connect Again");
-                connection = DriverManager.getConnection(Constants.JDBC, userInfo);
-            }
-            statement = connection.prepareStatement("SELECT * FROM PRODUCTS");
-            result = statement.executeQuery();
-            while (result.next()) {
-                product = new ProductModel(result.getInt(1), result.getString(2), result.getString(3),
-                        result.getString(4), result.getInt(5));
-                products.add(product);
-            }
+                if (connection.isClosed()) {
+                    LOG.info("Connect Again");
+                    connection = DriverManager.getConnection(Constants.JDBC, userInfo);
+                }
+                statement = connection.prepareStatement("SELECT * FROM PRODUCTS");
+                result = statement.executeQuery();
+                while (result.next()) {
+                    product = new ProductModel(result.getInt(1), result.getString(2), result.getString(3),
+                            result.getString(4), result.getInt(5));
+                    products.add(product);
+                }
+                success = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         } finally {
@@ -102,10 +104,11 @@ public class ProductFactoryImpl implements ProductFactory {
             close(statement);
             close(connection);
         }
-
+       return success;
     }
 
-    public void updateProduct(String id, String name, String category, String desc, String price) {
+    public boolean updateProduct(String id, String name, String category, String desc, String price) {
+        boolean success = false;
         id = id.trim();
         name = name.trim();
         category = category.trim();
@@ -123,6 +126,7 @@ public class ProductFactoryImpl implements ProductFactory {
             LOG.info("" + statement.toString());
             statement.executeUpdate();
             LOG.info("Finish Update");
+            success = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         } finally {
@@ -130,6 +134,7 @@ public class ProductFactoryImpl implements ProductFactory {
             close(statement);
             close(connection);
         }
+        return success;
     }
 
     private void close(AutoCloseable closeable) {
@@ -144,7 +149,8 @@ public class ProductFactoryImpl implements ProductFactory {
     }
 
     @Override
-    public void addProduct(String name, String category, String desc, String price) {
+    public boolean addProduct(String name, String category, String desc, String price) {
+        boolean success = false;
         name = name.trim();
         category = category.trim();
         desc = desc.trim();
@@ -160,6 +166,7 @@ public class ProductFactoryImpl implements ProductFactory {
                     + "(PRODUCT_NAME, PRODUCT_CATEGORY, PRODUCT_DESC,PRODUCT_PRICE) " + "VALUES(" + values + ")");
             statement.executeUpdate();
             LOG.info("Adding completed");
+            success = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         } finally {
@@ -167,20 +174,22 @@ public class ProductFactoryImpl implements ProductFactory {
             close(statement);
             close(connection);
         }
-
+        return success;
     }
 
     public List<ProductModel> getProducts() {
         return products;
     }
 
+    //For Testing
     public void setProducts(List<ProductModel> products) {
         this.products = products;
     }
-
+    
     @Override
-    public void deleteProduct(String Id) {
+    public boolean deleteProduct(String Id) {
         // TODO Auto-generated method stub
+        boolean success = false;
         try {
             if (connection.isClosed()) {
                 LOG.info("Connect Again");
@@ -189,6 +198,7 @@ public class ProductFactoryImpl implements ProductFactory {
             statement = connection.prepareStatement("DELETE FROM PRODUCTS WHERE PRODUCT_ID = " + Id);
             statement.executeUpdate();
             LOG.info("Delete completed");
+            success = true;
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
         } finally {
@@ -196,6 +206,7 @@ public class ProductFactoryImpl implements ProductFactory {
             close(statement);
             close(connection);
         }
+        return success;
     }
     
 }

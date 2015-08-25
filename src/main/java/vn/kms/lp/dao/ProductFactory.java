@@ -9,8 +9,8 @@ public interface ProductFactory {
     List<ProductModel> findByName(String name);
     List<ProductModel> findByCategory(String category);
     List<ProductModel> findByPrice(int From, int To);
-    void fetchData();
-    void updateProduct(String id, String name, String category, String desc, String price);
-    void addProduct(String name, String category, String desc, String price);
-    void deleteProduct(String Id);
+    boolean fetchData();
+    boolean updateProduct(String id, String name, String category, String desc, String price);
+    boolean addProduct(String name, String category, String desc, String price);
+    boolean deleteProduct(String Id);
 }

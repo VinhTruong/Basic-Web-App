@@ -12,39 +12,38 @@ import javax.servlet.http.HttpSessionBindingEvent;
 public class LoginListeners implements HttpSessionAttributeListener {
 
     public static int onlineCounting;
+
     /**
-     * Default constructor. 
+     * Default constructor.
      */
     public LoginListeners() {
         // TODO Auto-generated constructor stub
         onlineCounting = 0;
     }
 
-	/**
+    /**
      * @see HttpSessionAttributeListener#attributeAdded(HttpSessionBindingEvent)
      */
-    public void attributeAdded(HttpSessionBindingEvent event)  { 
-        if (event.getSession()
-                .getAttribute("userName")
-                != null) {
-           onlineCounting++;
-     }
+    public void attributeAdded(HttpSessionBindingEvent event) {
+        if (event.getSession().getAttribute("userName") != null) {
+            onlineCounting++;
+        }
     }
 
-	/**
+    /**
      * @see HttpSessionAttributeListener#attributeRemoved(HttpSessionBindingEvent)
      */
-    public void attributeRemoved(HttpSessionBindingEvent event)  { 
+    public void attributeRemoved(HttpSessionBindingEvent event) {
         if (event.getSession().getAttribute("userName") == null) {
-            onlineCounting--; 
-      }
+            onlineCounting--;
+        }
     }
 
-	/**
+    /**
      * @see HttpSessionAttributeListener#attributeReplaced(HttpSessionBindingEvent)
      */
-    public void attributeReplaced(HttpSessionBindingEvent event)  { 
-         // TODO Auto-generated method stub
+    public void attributeReplaced(HttpSessionBindingEvent event) {
+        // TODO Auto-generated method stub
     }
-	
+
 }

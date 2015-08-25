@@ -23,9 +23,9 @@ import vn.kms.lp.model.ProductModel;
  */
 @WebServlet("/DataFetching")
 public class DataFetching extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private ProductFactoryImpl productFactory;
-	private List<ProductModel> products;
+    private static final long serialVersionUID = 1L;
+    private ProductFactoryImpl productFactory;
+    private List<ProductModel> products;
     Logger logger = LogManager.getLogger(DataFetching.class);   
     /**
      * @throws SQLException 
@@ -38,53 +38,53 @@ public class DataFetching extends HttpServlet {
         logger.info("Initialized DataFetching Servlet");
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-	    String filterName = request.getParameter("Name");
-		String filterCategory = request.getParameter("Category");
-		String fromPrice = request.getParameter("From");
-		String toPrice = request.getParameter("To");
-		String Order = request.getParameter("Order");
-		
-		productFactory.fetchData();
-		
-	    if (!filterName.equals("")
-	            && fromPrice.equals("") 
-	    		&& filterCategory.equals("")) {
-	    	  products = productFactory.findByName(filterName);
-	    } else if (!filterCategory.equals("")
-	                    && fromPrice.equals("")
-	    				&& filterName.equals("")) {
-	    	  products = productFactory.findByCategory(filterCategory);
-	    } else if (!fromPrice.equals("")
-	                    && !toPrice.equals("")
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+    */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        String filterName = request.getParameter("Name");
+        String filterCategory = request.getParameter("Category");
+        String fromPrice = request.getParameter("From");
+        String toPrice = request.getParameter("To");
+        String Order = request.getParameter("Order");
+
+        productFactory.fetchData();
+
+        if (!filterName.equals("")
+                && fromPrice.equals("") 
+                && filterCategory.equals("")) {
+              products = productFactory.findByName(filterName);
+        } else if (!filterCategory.equals("")
+                        && fromPrice.equals("")
+                        && filterName.equals("")) {
+              products = productFactory.findByCategory(filterCategory);
+        } else if (!fromPrice.equals("")
+                        && !toPrice.equals("")
                         && filterName.equals("")
                         && filterCategory.equals("")) {
-	          int fromValue = Integer.parseInt(fromPrice);
-	          int toValue = Integer.parseInt(toPrice);
-	          products = productFactory.findByPrice(fromValue, toValue);
-	    } else if (!filterName.equals("") 
+              int fromValue = Integer.parseInt(fromPrice);
+              int toValue = Integer.parseInt(toPrice);
+              products = productFactory.findByPrice(fromValue, toValue);
+        } else if (!filterName.equals("") 
                         && filterCategory.equals("")
                         && !fromPrice.equals("")
                         && !toPrice.equals("")) {
-	          products = productFactory.findByName(filterName);
-	          removeWrongPrice(fromPrice, toPrice);
-	    } else if (filterName.equals("") 
+              products = productFactory.findByName(filterName);
+            removeWrongPrice(fromPrice, toPrice);
+        } else if (filterName.equals("") 
                         && !filterCategory.equals("")
                         && !fromPrice.equals("")
                         && !toPrice.equals("")) {
-	        products = productFactory.findByCategory(filterCategory);
+              products = productFactory.findByCategory(filterCategory);
             removeWrongPrice(fromPrice, toPrice);
-	    } else if (!filterName.equals("") 
-   	    				&& !filterCategory.equals("")
-   	                    && fromPrice.equals("")) {
-  	    	  products = productFactory.findByName(filterName);
-   	    	  removeWrongCategory(filterCategory);
-   	    }
-	    
+        } else if (!filterName.equals("") 
+                        && !filterCategory.equals("")
+                        && fromPrice.equals("")) {
+              products = productFactory.findByName(filterName);
+              removeWrongCategory(filterCategory);
+        }
+
         logger.info("Prepare To sort");
         switch (Order) {
             case "name":
@@ -95,37 +95,39 @@ public class DataFetching extends HttpServlet {
                 Collections.sort(products, new ProductModel());
                 break;
         }
-	    	
-	   request.setAttribute("products", products);
-	   request.getRequestDispatcher("search.jsp").forward(request, response);	    
-	}
 
-	protected void removeWrongCategory(String rightCategory) {
-	    for (int i = 0; i < products.size(); i++) {
+        request.setAttribute("products", products);
+        request.getRequestDispatcher("search.jsp").forward(request, response);	    
+    }
+
+    protected void removeWrongCategory(String rightCategory) {
+        for (int i = 0; i < products.size(); i++) {
             if (!products.get(i).getCategory().equals(rightCategory)) {
                   products.remove(products.get(i));
                   i--;
             }
-      }
-	}
-	
-	protected void removeWrongPrice(String fromRightPrice, String toRightPrice) {
-	    int fromValue = Integer.parseInt(fromRightPrice);
+        }
+}
+
+    protected void removeWrongPrice(String fromRightPrice, String toRightPrice) {
+        int fromValue = Integer.parseInt(fromRightPrice);
         int toValue = Integer.parseInt(toRightPrice);
-	    for (int i = 0; i < products.size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
             int price = products.get(i).getPrice();
-            if (price < fromValue
-                    || price > toValue) {
-                  products.remove(products.get(i));
-                  i--;
+            if (price < fromValue || price > toValue) {
+                products.remove(products.get(i));
+                i--;
             }
         }
     }
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
+        // TODO Auto-generated method stub
+    }
 
 }

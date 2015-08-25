@@ -22,66 +22,65 @@ public class UserFactoryImpl implements UserFactory {
     private List<UserModel> users;
     private UserModel user;
 
-	public UserFactoryImpl() {
-		users = new ArrayList<UserModel>();
-		user = null;
-	}
+    public UserFactoryImpl() {
+        users = new ArrayList<UserModel>();
+        user = null;
+    }
 
-	@Override
-	public boolean checkUser(String userName, String passWord) {
-		UserModel user = new UserModel(userName, passWord);
-		if (users.contains(user)) {
-			return true;
-		}
-		return false;
-	}
+    @Override
+    public boolean checkUser(String userName, String passWord) {
+        UserModel user = new UserModel(userName, passWord);
+        if (users.contains(user)) {
+            return true;
+        }
+        return false;
+    }
 
-	public void fetchData() {
-		users.clear(); // exclude problem when add or delete into db
-		try {
-			// Check necessary driver
-			Class.forName("org.postgresql.Driver");
+    public void fetchData() {
+        users.clear(); // exclude problem when add or delete into db
+        try {
+            // Check necessary driver
+            Class.forName("org.postgresql.Driver");
 
-			String jdbc = Constants.JDBC;
-			Properties userInfo = new Properties();
-			userInfo.put("user", "postgres");
-			userInfo.put("password", "124356");
+            String jdbc = Constants.JDBC;
+            Properties userInfo = new Properties();
+            userInfo.put("user", "postgres");
+            userInfo.put("password", "124356");
 
-			Connection connection = null;
-			PreparedStatement statement = null;
-			ResultSet result = null;
-			try {
-				connection = DriverManager.getConnection(jdbc, userInfo);
-				statement = connection.prepareStatement("SELECT * FROM USERS");
-				result = statement.executeQuery();
-				while (result.next()) {
-					user = new UserModel(result.getString(1),
-											result.getString(2));
-					users.add(user);
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet result = null;
+            try {
+                connection = DriverManager.getConnection(jdbc, userInfo);
+                statement = connection.prepareStatement("SELECT * FROM USERS");
+                result = statement.executeQuery();
+                while (result.next()) {
+                    user = new UserModel(result.getString(1), result.getString(2));
+                    users.add(user);
 
-				}
-			} catch (SQLException e) {
-				LOG.error(e.getMessage(), e);
-			} finally {
-				close(result);
-				close(statement);
-				close(connection);
-			}
+                }
+            } catch (SQLException e) {
+                LOG.error(e.getMessage(), e);
+            } finally {
+                close(result);
+                close(statement);
+                close(connection);
+            }
 
-		} catch (ClassNotFoundException e) {
-			LOG.error("Missing necessary Driver: " + e.getMessage());
-		}
+        } catch (ClassNotFoundException e) {
+            LOG.error("Missing necessary Driver: " + e.getMessage());
+        }
 
-	}
+    }
 
-	private void close(AutoCloseable closeable) {
-		if (closeable == null) {
-			return;
-		}
-		try {
-			closeable.close();
-		} catch (Exception ignore) {
-			//
-		}
-	}
+    private void close(AutoCloseable closeable) {
+        if (closeable == null) {
+            return;
+        }
+        try {
+            closeable.close();
+        } catch (Exception ignore) {
+            // Ignore Exception
+        }
+    }
 }

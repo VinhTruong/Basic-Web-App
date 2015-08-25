@@ -19,10 +19,10 @@ import vn.kms.lp.dao.impl.ProductFactoryImpl;
  */
 @WebServlet("/UpdateDatabase")
 public class UpdateDatabase extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LogManager.getLogger(UpdateDatabase.class);
-	private static ProductFactoryImpl productFactory;
-       
+    private static final long serialVersionUID = 1L;
+    private static final Logger logger = LogManager.getLogger(UpdateDatabase.class);
+    private static ProductFactoryImpl productFactory;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -36,9 +36,10 @@ public class UpdateDatabase extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String id = request.getParameter("Id");

@@ -17,8 +17,8 @@ import vn.kms.lp.dao.impl.UserFactoryImpl;
  */
 @WebServlet("/LoginControl")
 public class LoginControl extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
+    private static final long serialVersionUID = 1L;
+
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -27,31 +27,34 @@ public class LoginControl extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+    }
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String userName = request.getParameter("UserName");
-		String passWord = request.getParameter("Password");
-		UserFactory userFactory = new UserFactoryImpl();
-		userFactory.fetchData();
-		boolean loginFlag = userFactory.checkUser(userName, passWord);
-		if (loginFlag==false) {
-			request.setAttribute("loginFlag", loginFlag);
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		} else {
-		    HttpSession session = request.getSession();
-		    session.setAttribute("userName", userName);
-			request.getRequestDispatcher("search.jsp").forward(request, response);
-		}
-	}
+    /**
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+     *      response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
+        // TODO Auto-generated method stub
+        String userName = request.getParameter("UserName");
+        String passWord = request.getParameter("Password");
+        UserFactory userFactory = new UserFactoryImpl();
+        userFactory.fetchData();
+        boolean loginFlag = userFactory.checkUser(userName, passWord);
+        if (loginFlag == false) {
+            request.setAttribute("loginFlag", loginFlag);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+        } else {
+            HttpSession session = request.getSession();
+            session.setAttribute("userName", userName);
+            request.getRequestDispatcher("search.jsp").forward(request, response);
+        }
+    }
 
 }
