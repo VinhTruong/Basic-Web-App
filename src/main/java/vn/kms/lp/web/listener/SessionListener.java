@@ -1,4 +1,4 @@
-package vn.kms.lp.web;
+package vn.kms.lp.web.listener;
 
 import java.io.IOException;
 
@@ -9,19 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * Servlet implementation class LoginListener
  */
 @WebServlet("/LoginListener")
-public class LoginListener extends HttpServlet implements HttpSessionAttributeListener {
+public class SessionListener extends HttpServlet implements HttpSessionAttributeListener {
     private static final long serialVersionUID = 1L;
     private static int onlineCounting;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginListener() {
+    public SessionListener() {
         super();
         // TODO Auto-generated constructor stub
         onlineCounting = 0;
@@ -68,5 +70,4 @@ public class LoginListener extends HttpServlet implements HttpSessionAttributeLi
         // TODO Auto-generated method stub
 
     }
-
 }

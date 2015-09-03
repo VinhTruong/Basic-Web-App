@@ -1,4 +1,4 @@
-package vn.kms.lp.web;
+package vn.kms.lp.web.servlet;
 
 import java.io.IOException;
 
@@ -13,13 +13,13 @@ import javax.servlet.http.HttpSession;
  * Servlet implementation class LogOut
  */
 @WebServlet("/LogOutControl")
-public class LogOutControl extends HttpServlet {
+public class LogOutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogOutControl() {
+    public LogOutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }

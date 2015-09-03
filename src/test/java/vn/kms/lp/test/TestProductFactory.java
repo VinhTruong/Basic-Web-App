@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import vn.kms.lp.dao.impl.ProductFactoryImpl;
+import vn.kms.lp.dao.impl.ProductDaoImpl;
 import vn.kms.lp.model.ProductModel;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -18,7 +18,7 @@ public class TestProductFactory {
     private static String category;
     private static String desc;
     private static String price;
-    private static ProductFactoryImpl productFactory;
+    private static ProductDaoImpl productFactory;
 
     public TestProductFactory() {
         id = "5";
@@ -30,7 +30,7 @@ public class TestProductFactory {
 
     @Test
     public void testFetchProduct() throws SQLException {
-        productFactory = new ProductFactoryImpl();
+        productFactory = new ProductDaoImpl();
         boolean actual = productFactory.fetchData();
         boolean expected = true;
 
@@ -40,7 +40,7 @@ public class TestProductFactory {
     @Test
     public void testUpdateProduct() throws SQLException {
 
-        productFactory = new ProductFactoryImpl();
+        productFactory = new ProductDaoImpl();
         boolean actual = productFactory.updateProduct(id, name, category, desc, price);
         boolean expected = true;
 
@@ -50,7 +50,7 @@ public class TestProductFactory {
     @Test
     public void testAddProduct() throws SQLException {
         // Pseudo data
-        productFactory = new ProductFactoryImpl();
+        productFactory = new ProductDaoImpl();
         boolean actual = productFactory.addProduct(name, category, desc, price);
         boolean expected = true;
 
@@ -59,7 +59,7 @@ public class TestProductFactory {
 
     @Test
     public void testDeleteProduct() throws SQLException {
-        ProductFactoryImpl productFactory = new ProductFactoryImpl();
+        ProductDaoImpl productFactory = new ProductDaoImpl();
         productFactory.fetchData();
         String existedId = Integer.toString(productFactory.getProducts().get(productFactory.getProducts().size() - 1)
                 .getId());
@@ -83,7 +83,7 @@ public class TestProductFactory {
         products.add(pseudoModel3);
         products.add(pseudoModel4);
 
-        productFactory = new ProductFactoryImpl();
+        productFactory = new ProductDaoImpl();
         productFactory.setProducts(products);
 
         List<ProductModel> actual = new ArrayList<ProductModel>();

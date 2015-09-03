@@ -1,6 +1,5 @@
 package vn.kms.lp.dao;
 
-public interface UserFactory {
-    void fetchData();
+public interface UserDao {
     boolean checkUser(String userName, String passWord);
 }

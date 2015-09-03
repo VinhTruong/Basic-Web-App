@@ -9,7 +9,7 @@ public class ProductModel implements Comparable<ProductModel>, Comparator<Produc
     private String category;
     private String desc;
     private int price;
-   
+
     public ProductModel(int id, String name, String category, String desc, int price) {
         this.id = id;
         this.name = name;
@@ -17,9 +17,9 @@ public class ProductModel implements Comparable<ProductModel>, Comparator<Produc
         this.desc = desc;
         this.price = price;
     }
-    
+
     public ProductModel() {
-        
+
     }
 
     public int getId() {
@@ -37,7 +37,7 @@ public class ProductModel implements Comparable<ProductModel>, Comparator<Produc
     public String getDesc() {
         return desc;
     }
-    
+
     public int getPrice() {
         return price;
     }
@@ -47,15 +47,15 @@ public class ProductModel implements Comparable<ProductModel>, Comparator<Produc
         ProductModel model = (ProductModel) obj;
         return this.name.equals(model.getName());
     }
-    
+
     @Override
-    public int compareTo(ProductModel o) {       
+    public int compareTo(ProductModel o) {
         return this.name.compareToIgnoreCase(o.getName());
     }
 
     @Override
     public int compare(ProductModel o1, ProductModel o2) {
-        return o1.getPrice()-o2.getPrice();
+        return o1.getPrice() - o2.getPrice();
     }
-    
+
 }

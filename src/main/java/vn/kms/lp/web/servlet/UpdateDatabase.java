@@ -1,4 +1,4 @@
-package vn.kms.lp.web;
+package vn.kms.lp.web.servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import vn.kms.lp.dao.impl.ProductFactoryImpl;
+import vn.kms.lp.dao.impl.ProductDaoImpl;
 
 /**
  * Servlet implementation class UpdateDatabase
@@ -21,7 +21,7 @@ import vn.kms.lp.dao.impl.ProductFactoryImpl;
 public class UpdateDatabase extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(UpdateDatabase.class);
-    private static ProductFactoryImpl productFactory;
+    private static ProductDaoImpl productFactory;
 
     /**
      * @see HttpServlet#HttpServlet()
@@ -29,7 +29,7 @@ public class UpdateDatabase extends HttpServlet {
     public UpdateDatabase() {
         super();
         try {
-            productFactory = new ProductFactoryImpl();
+            productFactory = new ProductDaoImpl();
         } catch (SQLException e) {
             logger.error("Problem when initialize productFactory");
         }
