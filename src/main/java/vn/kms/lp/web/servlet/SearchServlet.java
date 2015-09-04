@@ -39,7 +39,7 @@ public class SearchServlet extends HttpServlet {
      *      response)
      */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-
+        boolean gotData = false;
         String filterName = request.getParameter("Name");
         String filterCategory = request.getParameter("Category");
         String fromPrice = request.getParameter("From");
@@ -49,24 +49,32 @@ public class SearchServlet extends HttpServlet {
         try {
             ProductDaoImpl productDao = new ProductDaoImpl();
             List<ProductModel> products = new ArrayList<ProductModel>();
-            products = productDao.
             
-            if (!filterName.equals("")) {
+            if (!filterName.equals("") && gotData==false) {
                 products = productDao.findByName(filterName);
+                gotData = true;
             }
             
             if (!filterCategory.equals("")) {
-                products = productDao.findByCategory(filterCategory);
-            }
+                if (gotData==false) {
+                    products = productDao.findByCategory(filterCategory);
+                    gotData = true;
+                } else {
+                    products = productDao.findByCategory(products, filterCategory);
+                }
+                
+            } 
             
             if (!fromPrice.equals("")) {
-                products = productDao.findByPrice(Integer.parseInt(fromPrice),Integer.parseInt(toPrice));
+                if (gotData==false) {
+                    products = productDao.findByPrice(Integer.parseInt(fromPrice),Integer.parseInt(toPrice));
+                    gotData = true;
+                } else {
+                    products = productDao.findByPrice(products, Integer.parseInt(fromPrice), Integer.parseInt(toPrice));
+                }
+                
             }
             
-            if (!fromPrice.equals("")) {
-                products = productDao.findByPrice(Integer.parseInt(fromPrice),Integer.parseInt(toPrice));
-            }
-
             switch (Order) {
                 case "name":
                     Collections.sort(products);

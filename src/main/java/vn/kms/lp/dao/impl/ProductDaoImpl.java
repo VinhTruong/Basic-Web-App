@@ -30,7 +30,6 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     public void checkDriver() {
-
         try {
             // Check necessary driver
             Class.forName(Constants.POSTGRES_DRIVER);
@@ -40,6 +39,31 @@ public class ProductDaoImpl implements ProductDao {
         LOG.info("Initialized");
     }
 
+    @Override
+    public List<ProductModel> findByName(List<ProductModel> products,String filterName) {
+        return products.stream().filter(productModel -> filterName.equals(productModel.getName()))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductModel> findByCategory(List<ProductModel> products, String category) {
+        return products.stream().filter(productModel -> productModel.getCategory().equals(category))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProductModel> findByPrice(List<ProductModel> products, int fromPrice, int toPrice) {
+        int price = 0;
+        List<ProductModel> searchResult = new ArrayList<ProductModel>();
+        for (int i = 1; i < products.size(); i++) {
+            price = products.get(i).getPrice();
+            if (price <= toPrice && price >= fromPrice) {
+                searchResult.add(products.get(i));
+            }
+        }
+        return searchResult;
+    }
+    
     @Override
     public List<ProductModel> findByName(String name) {
         List<ProductModel> products = new ArrayList<ProductModel>();

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpSessionListener;
 @WebServlet("/LoginListener")
 public class SessionListener extends HttpServlet implements HttpSessionAttributeListener {
     private static final long serialVersionUID = 1L;
-    private static int onlineCounting;
+    public static int onlineCounting;
 
     /**
      * @see HttpServlet#HttpServlet()
