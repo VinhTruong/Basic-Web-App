@@ -29,6 +29,17 @@ public class SessionListener extends HttpServlet implements HttpSessionAttribute
         onlineCounting = 0;
     }
 
+    public synchronized void increment() {
+        onlineCounting++;
+    }
+
+    public synchronized void decrement() {
+        onlineCounting--;
+    }
+
+    public synchronized int value() {
+        return onlineCounting;
+    }
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -53,7 +64,7 @@ public class SessionListener extends HttpServlet implements HttpSessionAttribute
     public void attributeAdded(HttpSessionBindingEvent event) {
         // TODO Auto-generated method stub
         if (event.getSession().getAttribute("userName") != null) {
-            onlineCounting++;
+            SessionListener.this.increment();
         }
     }
 
@@ -61,7 +72,7 @@ public class SessionListener extends HttpServlet implements HttpSessionAttribute
     public void attributeRemoved(HttpSessionBindingEvent event) {
         // TODO Auto-generated method stub
         if (event.getSession().getAttribute("userName") == null) {
-            onlineCounting--;
+            SessionListener.this.decrement();
         }
     }
 
