@@ -18,15 +18,15 @@ import vn.kms.lp.dao.impl.ProductDaoImpl;
  * Servlet implementation class UpdateDatabase
  */
 @WebServlet("/UpdateDatabase")
-public class UpdateDatabase extends HttpServlet {
+public class UpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = LogManager.getLogger(UpdateDatabase.class);
+    private static final Logger logger = LogManager.getLogger(UpdateServlet.class);
     private static ProductDaoImpl productFactory;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateDatabase() {
+    public UpdateServlet() {
         super();
         try {
             productFactory = new ProductDaoImpl();
