@@ -17,7 +17,7 @@ import vn.kms.lp.dao.impl.ProductDaoImpl;
 /**
  * Servlet implementation class UpdateDatabase
  */
-@WebServlet("/UpdateDatabase")
+@WebServlet("/UpdateServlet")
 public class UpdateServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LogManager.getLogger(UpdateServlet.class);

@@ -11,7 +11,7 @@
 <title>Search page</title>
 </head>
 <body>
-    <form action="LoginControl" method="POST">
+    <form action="LoginServlet" method="POST">
         UserName: <input type="text" name="UserName"> <br />
         Password: <input type="password" name="Password" /> <br /> <input
             type="submit" value="Submit" name="Submit" />

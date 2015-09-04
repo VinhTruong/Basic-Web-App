@@ -21,7 +21,7 @@ import vn.kms.lp.model.ProductModel;
 /**
  * Servlet implementation class DataControl
  */
-@WebServlet("/DataFetching")
+@WebServlet("/SearchServlet")
 public class SearchServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     static final Logger logger = LogManager.getLogger(SearchServlet.class);
@@ -49,32 +49,32 @@ public class SearchServlet extends HttpServlet {
         try {
             ProductDaoImpl productDao = new ProductDaoImpl();
             List<ProductModel> products = new ArrayList<ProductModel>();
-            
-            if (!filterName.equals("") && gotData==false) {
+
+            if (!filterName.equals("") && gotData == false) {
                 products = productDao.findByName(filterName);
                 gotData = true;
             }
-            
+
             if (!filterCategory.equals("")) {
-                if (gotData==false) {
+                if (gotData == false) {
                     products = productDao.findByCategory(filterCategory);
                     gotData = true;
                 } else {
                     products = productDao.findByCategory(products, filterCategory);
                 }
-                
-            } 
-            
+
+            }
+
             if (!fromPrice.equals("")) {
-                if (gotData==false) {
-                    products = productDao.findByPrice(Integer.parseInt(fromPrice),Integer.parseInt(toPrice));
+                if (gotData == false) {
+                    products = productDao.findByPrice(Integer.parseInt(fromPrice), Integer.parseInt(toPrice));
                     gotData = true;
                 } else {
                     products = productDao.findByPrice(products, Integer.parseInt(fromPrice), Integer.parseInt(toPrice));
                 }
-                
+
             }
-            
+
             switch (Order) {
                 case "name":
                     Collections.sort(products);
@@ -92,8 +92,8 @@ public class SearchServlet extends HttpServlet {
         } catch (SQLException e) {
             logger.error(e);
         }
-        
-        //response a error page 
+
+        // response a error page
         // ...
         // ...
     }

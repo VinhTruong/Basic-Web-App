@@ -15,7 +15,7 @@ import vn.kms.lp.dao.impl.UserDaoImpl;
 /**
  * Servlet implementation class LoginControl
  */
-@WebServlet("/LoginControl")
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -41,7 +41,7 @@ public class LoginServlet extends HttpServlet {
      */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        
+
         String userName = request.getParameter("UserName");
         String passWord = request.getParameter("Password");
         UserDao userFactory = new UserDaoImpl();
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", userName);
             request.getRequestDispatcher("search.jsp").forward(request, response);
         }
-        
+
     }
 
 }

@@ -20,13 +20,13 @@ public class UserDaoImpl implements UserDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDaoImpl.class);
     Properties userInfo;
-    
+
     public UserDaoImpl() {
         userInfo = new Properties();
         userInfo.put("user", "postgres");
         userInfo.put("password", "124356");
     }
-    
+
     public void checkDriver() {
         try {
             Class.forName(Constants.POSTGRES_DRIVER);
@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
             LOG.error("Missing Driver");
         }
     }
-    
+
     @Override
     public boolean checkUser(String userName, String passWord) {
         PreparedStatement statement = null;
@@ -50,10 +50,9 @@ public class UserDaoImpl implements UserDao {
             close(result);
             close(statement);
         }
-        
+
         return userExisted;
     }
-
 
     public List<UserModel> getAll() {
 
@@ -76,7 +75,7 @@ public class UserDaoImpl implements UserDao {
             close(result);
             close(statement);
         }
-        
+
         return users;
     }
 

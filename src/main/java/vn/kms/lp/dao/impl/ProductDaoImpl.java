@@ -40,7 +40,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public List<ProductModel> findByName(List<ProductModel> products,String filterName) {
+    public List<ProductModel> findByName(List<ProductModel> products, String filterName) {
         return products.stream().filter(productModel -> filterName.equals(productModel.getName()))
                 .collect(Collectors.toList());
     }
@@ -63,27 +63,27 @@ public class ProductDaoImpl implements ProductDao {
         }
         return searchResult;
     }
-    
+
     @Override
     public List<ProductModel> findByName(String name) {
         List<ProductModel> products = new ArrayList<ProductModel>();
         PreparedStatement stmt = null;
         ResultSet result = null;
-        
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
+
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
             stmt = connection.prepareStatement(selectStmt);
             stmt.setString(1, name);
             result = stmt.executeQuery();
-            
+
             while (result.next()) {
                 int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
                 String product_name = result.getString("PRODUCT_NAME");
                 String product_category = result.getString("PRODUCT_CATEGORY");
                 String product_desc = result.getString("PRODUCT_DESC");
                 int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, 
-                                                          product_desc, product_price);
+                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
+                        product_price);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -97,21 +97,21 @@ public class ProductDaoImpl implements ProductDao {
         List<ProductModel> products = new ArrayList<ProductModel>();
         PreparedStatement stmt = null;
         ResultSet result = null;
-        
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
+
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_CATEGORY = ?";
             stmt = connection.prepareStatement(selectStmt);
             stmt.setString(1, category);
             result = stmt.executeQuery();
-            
+
             while (result.next()) {
                 int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
                 String product_name = result.getString("PRODUCT_NAME");
                 String product_category = result.getString("PRODUCT_CATEGORY");
                 String product_desc = result.getString("PRODUCT_DESC");
                 int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, 
-                                                          product_desc, product_price);
+                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
+                        product_price);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -125,22 +125,22 @@ public class ProductDaoImpl implements ProductDao {
         List<ProductModel> products = new ArrayList<ProductModel>();
         PreparedStatement stmt = null;
         ResultSet result = null;
-        
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
+
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_PRICE >= ? AND PRODUCT_PRICE <= ?";
             stmt = connection.prepareStatement(selectStmt);
             stmt.setLong(1, fromPrice);
             stmt.setLong(2, toPrice);
             result = stmt.executeQuery();
-            
+
             while (result.next()) {
                 int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
                 String product_name = result.getString("PRODUCT_NAME");
                 String product_category = result.getString("PRODUCT_CATEGORY");
                 String product_desc = result.getString("PRODUCT_DESC");
                 int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, 
-                                                          product_desc, product_price);
+                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
+                        product_price);
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -159,13 +159,9 @@ public class ProductDaoImpl implements ProductDao {
         desc = desc.trim();
         price = price.trim();
 
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
-            String updateStmt = "UPDATE PRODUCTS SET"
-                                 + "PRODUCT_NAME = ?"
-                                 + "PRODUCT_CATEGORY = ?"
-                                 + "PRODUCT_DESC = ?"
-                                 + "PRODUCT_PRICE = ?"
-                                 + "WHERE PRODUCT_ID = ?";
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
+            String updateStmt = "UPDATE PRODUCTS SET" + "PRODUCT_NAME = ?" + "PRODUCT_CATEGORY = ?"
+                    + "PRODUCT_DESC = ?" + "PRODUCT_PRICE = ?" + "WHERE PRODUCT_ID = ?";
             statement = connection.prepareStatement(updateStmt);
             statement.setString(1, name);
             statement.setString(2, category);
@@ -194,9 +190,9 @@ public class ProductDaoImpl implements ProductDao {
         category = category.trim();
         desc = desc.trim();
         price = price.trim();
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             String insertStmt = "INSERT INTO PRODUCTS (PRODUCT_NAME, PRODUCT_CATEGORY, PRODUCT_DESC,PRODUCT_PRICE)"
-                                + "VALUES(?, ?, ?, ?)";
+                    + "VALUES(?, ?, ?, ?)";
             statement = connection.prepareStatement(insertStmt);
             statement.setString(1, name);
             statement.setString(2, category);
@@ -219,8 +215,8 @@ public class ProductDaoImpl implements ProductDao {
         PreparedStatement statement = null;
         ResultSet result = null;
         boolean success = false;
-        
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo); ) {
+
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             String delStmt = "DELETE FROM PRODUCTS WHERE PRODUCT_ID = ?";
             statement = connection.prepareStatement(delStmt);
             statement.setString(1, id);
@@ -235,7 +231,7 @@ public class ProductDaoImpl implements ProductDao {
         }
         return success;
     }
-    
+
     private void close(AutoCloseable closeable) {
         if (closeable == null) {
             return;

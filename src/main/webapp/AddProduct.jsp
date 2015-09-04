@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-    <form action="UpdateDatabase" method="GET">
+    <form action="UpdateServlet" method="GET">
             Name: <input type="text" name="Name" >
             <br /> 
             Category: <input type="text" name="Category"/> <br /> 

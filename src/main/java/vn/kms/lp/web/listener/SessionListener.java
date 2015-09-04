@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSessionListener;
 /**
  * Servlet implementation class LoginListener
  */
-@WebServlet("/LoginListener")
+@WebServlet("/SessionListener")
 public class SessionListener extends HttpServlet implements HttpSessionAttributeListener {
     private static final long serialVersionUID = 1L;
     public static int onlineCounting;
@@ -40,6 +40,7 @@ public class SessionListener extends HttpServlet implements HttpSessionAttribute
     public synchronized int value() {
         return onlineCounting;
     }
+
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)

@@ -20,7 +20,7 @@
                 String price = request.getParameter("Price");
                 System.out.print("Iddddd:"+id);
         %>
-        <form action="UpdateDatabase" method="GET">
+        <form action="UpdateServlet" method="GET">
             Name: <input type="text" name="Name" value="<%=name%>">
             <br /> 
             Category: <input type="text" name="Category"
@@ -32,7 +32,7 @@
                    <input type="hidden" name="Action" value="Save">             
                    <input type="hidden" name="Id" value="<%=id%>">                   
         </form>
-        <form action="UpdateDatabase">
+        <form action="UpdateServlet">
             <input type="hidden" name="Action" value="Delete">
             <input type="hidden" name="Id" value="<%=id%>">
             <input type="submit" value="Delete" />   

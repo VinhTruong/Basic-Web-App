@@ -1,9 +1,9 @@
+<%@page import="vn.kms.lp.web.listener.SessionListener"%>
 <%@page import="vn.kms.lp.web.LoginListeners"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="vn.kms.lp.model.ProductModel"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -12,12 +12,10 @@
 <title>Search page</title>
 </head>
 <body>
-    <form action="DataFetching" method="GET">
-        Name: <input type="text" name="Name"> <br /> Category:
-        <input type="text" name="Category" /> <br /> Price: <input
-            type="text" name="From"> To <input type="text"
-            name="To" /> <br /> Order By <select name="Order"
-            id="Order">
+    <form action="SearchServlet method="GET">
+        Name: <input type="text" name="Name"> <br /> Category: <input type="text" name="Category" /> <br />
+        Price: <input type="text" name="From"> To <input type="text" name="To" /> <br /> Order By <select
+            name="Order" id="Order">
             <option value="name">Name</option>
             <option value="price">Price</option>
             <option selected="selected"></option>
@@ -39,8 +37,7 @@
                                 href='modifyProduct.jsp?Id=${item.getId()}&Name=${item.getName()}&Category=${item.getCategory()}&Desc=${item.getDesc()}&Price=${item.getPrice()}'>
                                     <c:out value="${item.getName()}"></c:out>
                             </a></td>
-                            <td><c:out
-                                    value="${item.getCategory()}"></c:out></td>
+                            <td><c:out value="${item.getCategory()}"></c:out></td>
                             <td><c:out value="${item.getDesc()}"></c:out></td>
                             <td><c:out value="${item.getPrice()}"></c:out></td>
                         </tr>
@@ -64,8 +61,7 @@
                     <c:forEach items="${products}" var="item">
                         <tr>
                             <td><c:out value="${item.getName()}"></c:out></td>
-                            <td><c:out
-                                    value="${item.getCategory()}"></c:out></td>
+                            <td><c:out value="${item.getCategory()}"></c:out></td>
                             <td><c:out value="${item.getDesc()}"></c:out></td>
                             <td><c:out value="${item.getPrice()}"></c:out></td>
                         </tr>
@@ -77,13 +73,13 @@
     <form action="login.jsp">
         <input align="right" type="submit" value="Back to Login">
     </form>
-    <form action="LogOutControl">
-        <input type="hidden" name="currentPage" value="search.jsp" /> <input
-            align="right" type="submit" value="Log Out">
+    <form action="LogOutServlet">
+        <input type="hidden" name="currentPage" value="search.jsp" /> <input align="right" type="submit"
+            value="Log Out">
     </form>
-    <form action="LoginListener">
-        <input type="hidden" name="currentPage" value="search.jsp" />
-    </form>
-    <h2 align="Right" style="color:blue">Online:<c:out value="<%=LoginListeners.onlineCounting%>"></c:out></h2>
+    <h2 align="Right" style="color: blue">
+        Online:
+        <c:out value="<%=SessionListener.onlineCounting%>"></c:out>
+    </h2>
 </body>
 </html>
