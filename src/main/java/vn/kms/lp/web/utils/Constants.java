@@ -3,10 +3,6 @@
 //
 package vn.kms.lp.web.utils;
 
-/**
- * @author thanhtran
- *
- */
 public class Constants {
     public static final String JDBC = "jdbc:postgresql://localhost:5432/WebAppDatabase";
     public static final String DB_USERNAME = "postgres"; 

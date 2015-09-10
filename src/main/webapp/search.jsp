@@ -1,5 +1,4 @@
 <%@page import="vn.kms.lp.web.listener.SessionListener"%>
-<%@page import="vn.kms.lp.web.LoginListeners"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="vn.kms.lp.model.ProductModel"%>
 <%@page import="java.util.List"%>
@@ -12,7 +11,7 @@
 <title>Search page</title>
 </head>
 <body>
-    <form action="SearchServlet method="GET">
+    <form action="SearchServlet" method="GET">
         Name: <input type="text" name="Name"> <br /> Category: <input type="text" name="Category" /> <br />
         Price: <input type="text" name="From"> To <input type="text" name="To" /> <br /> Order By <select
             name="Order" id="Order">

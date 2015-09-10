@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +25,7 @@ public class ProductDaoImpl implements ProductDao {
         userInfo = new Properties();
         userInfo.put("user", Constants.DB_USERNAME);
         userInfo.put("password", Constants.DB_PWD);
+        checkDriver();
 
     }
 
@@ -39,116 +39,6 @@ public class ProductDaoImpl implements ProductDao {
         LOG.info("Initialized");
     }
 
-    @Override
-    public List<ProductModel> findByName(List<ProductModel> products, String filterName) {
-        return products.stream().filter(productModel -> filterName.equals(productModel.getName()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductModel> findByCategory(List<ProductModel> products, String category) {
-        return products.stream().filter(productModel -> productModel.getCategory().equals(category))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ProductModel> findByPrice(List<ProductModel> products, int fromPrice, int toPrice) {
-        int price = 0;
-        List<ProductModel> searchResult = new ArrayList<ProductModel>();
-        for (int i = 1; i < products.size(); i++) {
-            price = products.get(i).getPrice();
-            if (price <= toPrice && price >= fromPrice) {
-                searchResult.add(products.get(i));
-            }
-        }
-        return searchResult;
-    }
-
-    @Override
-    public List<ProductModel> findByName(String name) {
-        List<ProductModel> products = new ArrayList<ProductModel>();
-        PreparedStatement stmt = null;
-        ResultSet result = null;
-
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
-            String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_NAME = ?";
-            stmt = connection.prepareStatement(selectStmt);
-            stmt.setString(1, name);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-                int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
-                String product_name = result.getString("PRODUCT_NAME");
-                String product_category = result.getString("PRODUCT_CATEGORY");
-                String product_desc = result.getString("PRODUCT_DESC");
-                int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
-                        product_price);
-                products.add(product);
-            }
-        } catch (SQLException e) {
-            LOG.info(e.toString());
-        }
-        return products;
-    }
-
-    @Override
-    public List<ProductModel> findByCategory(String category) {
-        List<ProductModel> products = new ArrayList<ProductModel>();
-        PreparedStatement stmt = null;
-        ResultSet result = null;
-
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
-            String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_CATEGORY = ?";
-            stmt = connection.prepareStatement(selectStmt);
-            stmt.setString(1, category);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-                int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
-                String product_name = result.getString("PRODUCT_NAME");
-                String product_category = result.getString("PRODUCT_CATEGORY");
-                String product_desc = result.getString("PRODUCT_DESC");
-                int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
-                        product_price);
-                products.add(product);
-            }
-        } catch (SQLException e) {
-            LOG.info(e.toString());
-        }
-        return products;
-    }
-
-    @Override
-    public List<ProductModel> findByPrice(int fromPrice, int toPrice) {
-        List<ProductModel> products = new ArrayList<ProductModel>();
-        PreparedStatement stmt = null;
-        ResultSet result = null;
-
-        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
-            String selectStmt = "SELECT * FROM PRODUCTS WHERE PRODUCT_PRICE >= ? AND PRODUCT_PRICE <= ?";
-            stmt = connection.prepareStatement(selectStmt);
-            stmt.setLong(1, fromPrice);
-            stmt.setLong(2, toPrice);
-            result = stmt.executeQuery();
-
-            while (result.next()) {
-                int product_id = Integer.parseInt(result.getString("PRODUCT_ID"));
-                String product_name = result.getString("PRODUCT_NAME");
-                String product_category = result.getString("PRODUCT_CATEGORY");
-                String product_desc = result.getString("PRODUCT_DESC");
-                int product_price = Integer.parseInt(result.getString("PRODUCT_PRICE"));
-                ProductModel product = new ProductModel(product_id, product_name, product_category, product_desc,
-                        product_price);
-                products.add(product);
-            }
-        } catch (SQLException e) {
-            LOG.info(e.toString());
-        }
-        return products;
-    }
-
     public boolean updateProduct(String id, String name, String category, String desc, String price) {
         PreparedStatement statement = null;
         ResultSet result = null;
@@ -160,8 +50,8 @@ public class ProductDaoImpl implements ProductDao {
         price = price.trim();
 
         try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
-            String updateStmt = "UPDATE PRODUCTS SET" + "PRODUCT_NAME = ?" + "PRODUCT_CATEGORY = ?"
-                    + "PRODUCT_DESC = ?" + "PRODUCT_PRICE = ?" + "WHERE PRODUCT_ID = ?";
+            String updateStmt = "UPDATE PRODUCTS SET" + "PRODUCT_NAME = ?" + "PRODUCT_CATEGORY = ?" + "PRODUCT_DESC = ?"
+                    + "PRODUCT_PRICE = ?" + "WHERE PRODUCT_ID = ?";
             statement = connection.prepareStatement(updateStmt);
             statement.setString(1, name);
             statement.setString(2, category);
@@ -232,6 +122,98 @@ public class ProductDaoImpl implements ProductDao {
         return success;
     }
 
+    @Override
+    public List<ProductModel> search(String name, String category, String fromCost, String toCost) {
+        List<ProductModel> searchResult = new ArrayList<ProductModel>();
+        ProductModel product = null;
+        String searchStmt = prepareSearchStmt(name, category, fromCost, toCost);
+        
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        
+        int parameterIndex = 1;
+        try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
+            statement = connection.prepareStatement(searchStmt);
+            
+            if (!name.equals("null")) {
+                statement.setString(parameterIndex, name);
+                parameterIndex++;
+            }
+
+            if (!category.equals("null")) {
+                statement.setString(parameterIndex, category);
+                parameterIndex++;
+            }
+            
+            if (!fromCost.equals("null")) {
+                statement.setString(parameterIndex, fromCost);
+                parameterIndex++;
+            }
+            
+            if (!toCost.equals("null")) {
+                statement.setString(parameterIndex, toCost);
+                parameterIndex++;
+            }
+            
+            result = statement.executeQuery();
+            while (result.next()) {
+                product = new ProductModel(result.getInt("product_id"), 
+                                             result.getString("product_name"), 
+                                             result.getString("product_category"), 
+                                             result.getString("product_desc"),
+                                             result.getInt("product_price"));
+                searchResult.add(product);
+            }
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        } finally {
+            close(result);
+            close(statement);
+        }
+        
+        return searchResult;
+    }
+
+    public String prepareSearchStmt(String name, String category, String fromCost, String toCost) {
+        int parameterCounter = 0;
+        StringBuilder searchStmt = new StringBuilder();
+        searchStmt.append("SELECT * FROM PRODUCTS WHERE ");
+
+        if (!name.equals("null")) {
+            searchStmt.append("PRODUCT_ID = ? ");
+            parameterCounter++;
+        }
+
+        if (!category.equals("null")) {
+            if (parameterCounter == 0) {
+                searchStmt.append("LOWER(PRODUCT_CATEGORY) = ? ");
+            } else {
+                searchStmt.append("AND LOWER(PRODUCT_CATEGORY) = ? ");
+            }            
+            parameterCounter++;
+        }
+        
+        if (!fromCost.equals("null")) {
+            if (parameterCounter == 0) {
+                searchStmt.append("PRODUCT_PRICE <= ? ");
+            } else {
+                searchStmt.append("AND PRODUCT_PRICE <= ? ");
+            }            
+            parameterCounter++;
+        }
+        
+        if (!toCost.equals("null")) {
+            if (parameterCounter == 0) {
+                searchStmt.append("PRODUCT_PRICE >= ? ");
+            } else {
+                searchStmt.append("AND PRODUCT_PRICE >= ? ");
+            }            
+            parameterCounter++;
+        }
+        
+        return searchStmt.toString();      
+    }
+    
     private void close(AutoCloseable closeable) {
         if (closeable == null) {
             return;
