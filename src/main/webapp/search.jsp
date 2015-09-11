@@ -48,7 +48,7 @@
 	
 	<h2 align="Right" style="color: blue">
 		Online:
-		<c:out value="<%=SessionListener.onlineCounting%>"></c:out>
+		<c:out value="<%=SessionListener.getOnlineNumber()%>"></c:out>
 	</h2>
 </body>
 </html>

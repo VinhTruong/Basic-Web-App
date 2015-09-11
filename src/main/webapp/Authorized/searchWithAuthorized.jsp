@@ -51,10 +51,10 @@
 			align="right" type="submit" value="Log Out">
 	</form>
 	
-	
+	<%int onlineCounting = SessionListener.getOnlineNumber();%>
 	<h2 align="Right" style="color: blue">
 		Online:
-		<c:out value="<%=SessionListener.onlineCounting%>"></c:out>
+		<c:out value="<%=onlineCounting%>"></c:out>
 	</h2>
 </body>
 </html>
