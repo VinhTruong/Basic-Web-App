@@ -52,7 +52,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             HttpSession session = request.getSession();
             session.setAttribute("userName", userName);
-            request.getRequestDispatcher("search.jsp").forward(request, response);
+            request.getRequestDispatcher("Authorized/searchWithAuthorized.jsp").forward(request, response);
         }
 
     }

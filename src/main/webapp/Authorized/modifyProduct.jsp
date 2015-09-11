@@ -10,8 +10,6 @@
 <title>Update Product</title>
 </head>
 <body>
-    <c:choose>    
-    <c:when test="${sessionScope.userName != null}">
         <%
                 String id = request.getParameter("Id");
                 String name = request.getParameter("Name");
@@ -20,6 +18,7 @@
                 String price = request.getParameter("Price");
                 System.out.print("Iddddd:"+id);
         %>
+        
         <form action="UpdateServlet" method="GET">
             Name: <input type="text" name="Name" value="<%=name%>">
             <br /> 
@@ -32,15 +31,11 @@
                    <input type="hidden" name="Action" value="Save">             
                    <input type="hidden" name="Id" value="<%=id%>">                   
         </form>
+        
         <form action="UpdateServlet">
             <input type="hidden" name="Action" value="Delete">
             <input type="hidden" name="Id" value="<%=id%>">
             <input type="submit" value="Delete" />   
         </form>
-    </c:when>
-    <c:otherwise>
-           <h1 style="color:red">UnAuthorized</h1>
-    </c:otherwise>
-    </c:choose> 
 </body>
 </html>

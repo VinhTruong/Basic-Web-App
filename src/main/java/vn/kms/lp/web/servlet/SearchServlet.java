@@ -45,6 +45,11 @@ public class SearchServlet extends HttpServlet {
         String toCost = request.getParameter("To");
         String Order = request.getParameter("Order");
 
+        name = name.trim();
+        category = category.trim();
+        fromCost = fromCost.trim();
+        toCost = toCost.trim();
+        
         try {
             ProductDaoImpl productDao = new ProductDaoImpl();
             List<ProductModel> products = new ArrayList<ProductModel>();
@@ -61,7 +66,7 @@ public class SearchServlet extends HttpServlet {
                     break;
             }
             request.setAttribute("products", products);
-            request.getRequestDispatcher("search.jsp").forward(request, response);
+            request.getRequestDispatcher("/Authorized/searchWithAuthorized.jsp").forward(request, response);
             return;
         } catch (ServletException | IOException e) {
             logger.error(e);

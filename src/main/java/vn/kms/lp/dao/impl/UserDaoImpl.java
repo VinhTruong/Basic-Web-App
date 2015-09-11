@@ -25,6 +25,7 @@ public class UserDaoImpl implements UserDao {
         userInfo = new Properties();
         userInfo.put("user", "postgres");
         userInfo.put("password", "124356");
+        checkDriver();
     }
 
     public void checkDriver() {
@@ -42,7 +43,10 @@ public class UserDaoImpl implements UserDao {
         boolean userExisted = false;
 
         try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
-            statement = connection.prepareStatement("SELECT EXISTS(SELECT 1 FROM USERS WHERE USERNAME = ?)");
+            statement = connection.prepareStatement("SELECT EXISTS(SELECT 1 FROM USERS WHERE USERNAME = ? "
+                                                        + "AND PASSWORD = ?)");
+            statement.setString(1, userName);
+            statement.setString(2, passWord);
             userExisted = statement.execute();
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);

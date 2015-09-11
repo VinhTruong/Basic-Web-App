@@ -33,7 +33,7 @@
 		<c:if test="${products != null}">
 			<c:forEach items="${products}" var="item">
 				<tr>
-					<td><c:out value="${item.getName()}"></c:out></td>
+					<td><a><c:out value="${item.getName()}"></c:out></a></td>
 					<td><c:out value="${item.getCategory()}"></c:out></td>
 					<td><c:out value="${item.getDesc()}"></c:out></td>
 					<td><c:out value="${item.getPrice()}"></c:out></td>
@@ -45,11 +45,7 @@
 	<form action="addProduct.jsp">
 		<input type="submit" value="Add">
 	</form>
-	
-	<form action="modifyProduct.jsp">
-		<input type="submit" value="Edit">
-	</form>
-	
+		
 	<form action="LogOutServlet">
 		<input type="hidden" name="currentPage" value="search.jsp" /> <input
 			align="right" type="submit" value="Log Out">

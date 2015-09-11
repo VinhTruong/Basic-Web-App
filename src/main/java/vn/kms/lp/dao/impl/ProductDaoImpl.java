@@ -135,22 +135,22 @@ public class ProductDaoImpl implements ProductDao {
         try (Connection connection = DriverManager.getConnection(Constants.JDBC, userInfo);) {
             statement = connection.prepareStatement(searchStmt);
             
-            if (!name.equals("null")) {
+            if (!name.equals("")) {
                 statement.setString(parameterIndex, name);
                 parameterIndex++;
             }
 
-            if (!category.equals("null")) {
+            if (!category.equals("")) {
                 statement.setString(parameterIndex, category);
                 parameterIndex++;
             }
             
-            if (!fromCost.equals("null")) {
+            if (!fromCost.equals("")) {
                 statement.setString(parameterIndex, fromCost);
                 parameterIndex++;
             }
             
-            if (!toCost.equals("null")) {
+            if (!toCost.equals("")) {
                 statement.setString(parameterIndex, toCost);
                 parameterIndex++;
             }
@@ -162,7 +162,7 @@ public class ProductDaoImpl implements ProductDao {
                                              result.getString("product_category"), 
                                              result.getString("product_desc"),
                                              result.getInt("product_price"));
-                searchResult.add(product);
+                searchResult.add(product); 
             }
         } catch (SQLException e) {
             LOG.error(e.getMessage(), e);
@@ -179,12 +179,12 @@ public class ProductDaoImpl implements ProductDao {
         StringBuilder searchStmt = new StringBuilder();
         searchStmt.append("SELECT * FROM PRODUCTS WHERE ");
 
-        if (!name.equals("null")) {
-            searchStmt.append("PRODUCT_ID = ? ");
+        if (!name.equals("")) {
+            searchStmt.append("PRODUCT_NAME = ? ");
             parameterCounter++;
         }
 
-        if (!category.equals("null")) {
+        if (!category.equals("")) {
             if (parameterCounter == 0) {
                 searchStmt.append("LOWER(PRODUCT_CATEGORY) = ? ");
             } else {
@@ -193,7 +193,7 @@ public class ProductDaoImpl implements ProductDao {
             parameterCounter++;
         }
         
-        if (!fromCost.equals("null")) {
+        if (!fromCost.equals("")) {
             if (parameterCounter == 0) {
                 searchStmt.append("PRODUCT_PRICE <= ? ");
             } else {
@@ -202,7 +202,7 @@ public class ProductDaoImpl implements ProductDao {
             parameterCounter++;
         }
         
-        if (!toCost.equals("null")) {
+        if (!toCost.equals("")) {
             if (parameterCounter == 0) {
                 searchStmt.append("PRODUCT_PRICE >= ? ");
             } else {
