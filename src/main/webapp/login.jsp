@@ -16,8 +16,9 @@
         Password: <input type="password" name="Password" /> <br /> <input
             type="submit" value="Submit" name="Submit" />
     </form>
+    <a href="search.jsp">Go to Search Page</a>
     <c:if test="${loginFlag == false}">
         <h3>Wrong username or password</h3>
-    </c:if>
+    </c:if> 
 </body>
 </html>

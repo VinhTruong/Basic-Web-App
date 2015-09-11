@@ -40,11 +40,10 @@ public class LoginFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
         String path = req.getRequestURI();
-
-        if (!path.startsWith("/LoginServlet")) {
-            if (session.getAttribute("userName") != null) {
-                chain.doFilter(request, response);
-            }
+        path = path.substring(path.lastIndexOf("/") + 1);
+        
+        if (path.startsWith("login.jsp") || path.startsWith("search.jsp")) {
+            chain.doFilter(request, response);
         } else {
             chain.doFilter(request, response);
         }
