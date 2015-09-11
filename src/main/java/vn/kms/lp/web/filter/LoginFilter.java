@@ -44,7 +44,7 @@ public class LoginFilter implements Filter {
         
         if (path.startsWith("login.jsp") || path.startsWith("search.jsp")) {
             chain.doFilter(request, response);
-        } else {
+        } else if (session.getAttribute("userName") != null) {
             chain.doFilter(request, response);
         }
 
